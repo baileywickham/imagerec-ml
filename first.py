@@ -1,8 +1,10 @@
 import tensorflow as tf
 import os
 from PIL import Image
-files = os.listdir('/home/bailey/workspace/imagerec-ml/img')
-#make this relational so we can clone it and it will still work without being on just my computer. Lazy hack.
+files = os.listdir('/home/bailey/workspace/imagerec-ml/img') #make this relational so we can clone it and it will still work without being on just my computer. Lazy hack.
+
+#it looks like we are going to need to feed data. where there is a list of file names which get piped into a queue and then
+#decoded by a third piece, not sure on how to impliment any of this.
 
 if __name__ == '__main__':
     for file in files:
