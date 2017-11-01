@@ -1,9 +1,22 @@
 import tensorflow as tf
 import os
 from PIL import Image
-files = os.listdir('/home/bailey/workspace/imagerec-ml/img') #make this relational so we can clone it and it will still work without being on just my computer. Lazy hack.
-graph = tf.Graph()
 
+labels = []
+images = []
+
+directories = [d for d in os.listdir(data_dir)
+		if os.path.isdir(os.path.join(data_dir, d))]
+
+for d in directories
+	label_dir = os.path.join(data_dir, d)
+	file_names = [os.path.join(label_dir, f)
+			for f in os.listdir(label_dir)
+			if f.endswith(".jpg")]
+	for f in file_names:
+		images.append(skimage.data.read(f))
+		labels.append(int(d))
+images, labels = load_data(train_data_dir)
 
 #it looks like we are going to need to feed data. where there is a list of file names which get piped into a queue and then
 #decoded by a third piece, not sure on how to impliment any of this.
