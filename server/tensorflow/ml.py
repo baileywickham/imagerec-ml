@@ -5,6 +5,7 @@ from PIL import Image
 labels = []
 images = []
 
+#data_dir define data directory eventally
 directories = [d for d in os.listdir(data_dir)
 		if os.path.isdir(os.path.join(data_dir, d))]
 
@@ -26,9 +27,30 @@ with graph.as_default():
 	#take an image list in as 64x64 with 3 color chanels. labels will be andy or not andy
 	images_ph = tf.placeholder(tf.float32, [None, 64, 64, 3])
 	labels_ph = tf.placeholder(tf.int8, [None]
-
+	
+	#Flattens image into 1d vector
 	images_flat = tf.contrib.layers.flatten(images_ph)
 	
 	#input to softmax, starts probabilties. not sure what tf.nn.relu does	
 	logits = tf.contrib.layers.fully_connected(images_flat, 2, tf.nn.relu)
+	#converts labels to tensor
+	predicted_labels = tf.argmax(logits, 1)
+	
+	#defines loss function, cross entropy. For some reason it is better than mean squared.
+	loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits, labels_ph))
+	
+	#Adam optimizer is a grad decent optimizer, telling it to minimize the loss function defined here.
+	train = tf.train.AdamOptimizer(learning_rate=0.001).minimize(loss)
+	
+	#initalizes variables
+	init = tf.global_variables_initializer()
 
+#sets session variable, inits vars
+session = tf.Session(graph=graph)
+session.run(init)	
+
+for i in range(201):
+	_, loss_value = session.run([train, loss], feed_dict={images_ph: images_a, labels_ph: labels_a})
+	
+	if i % 10 == 0:
+		print("loss value: ", loss_value)
