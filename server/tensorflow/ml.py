@@ -14,7 +14,7 @@ def load_data(data_dir):
     labels = []
     images = []
 
-    filename_queue = tf.train.string_input_producer(tf.train.match_filenames_once("./img/*.jpeg"))
+    filename_queue = tf.train.string_input_producer(tf.train.match_filenames_once("./img/"))
     image_reader = tf.WholeFileReader()
 
     _, image_file = image_reader.read(filename_queue)

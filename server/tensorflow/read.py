@@ -1,36 +1,29 @@
+# Typical setup to include TensorFlow.
 import tensorflow as tf
-
+from PIL import Image
+import numpy as np
 # Make a queue of file names including all the JPEG images files in the relative
 # image directory.
-filename_queue = tf.train.string_input_producer(
-    tf.train.match_filenames_once("./images/*.jpg"))
 
-# Read an entire image file which is required since they're JPEGs, if the images
-# are too large they could be split in advance to smaller files or use the Fixed
-# reader to split up the file.
-image_reader = tf.WholeFileReader()
+filename_queue = tf.train.string_input_producer(['./images/a.jpg'])
+reader = tf.WholeFileReader()
+key, value = reader.read(filename_queue)
 
-# Read a whole file from the queue, the first returned value in the tuple is the
-# filename which we are ignoring.
-_, image_file = image_reader.read(filename_queue)
+my_img = tf.image.decode_jpeg(value) # use png or jpg decoder based on your files.
 
-# Decode the image as a JPEG file, this will turn it into a Tensor which we can
-# then use in training.
-image = tf.image.decode_jpeg(image_file)
-
-# Start a new session to show example output.
+init_op = tf.global_variables_initializer()
 with tf.Session() as sess:
-    # Required to get the filename matching to run.
-    tf.initialize_all_variables().run()
+  sess.run(init_op)
 
-    # Coordinate the loading of image files.
-    coord = tf.train.Coordinator()
-    threads = tf.train.start_queue_runners(coord=coord)
+  # Start populating the filename queue.
 
-    # Get an image tensor and print its value.
-    image_tensor = sess.run([image])
-    print(image_tensor)
+  coord = tf.train.Coordinator()
+  threads = tf.train.start_queue_runners(coord=coord)
 
-    # Finish off the filename queue coordinator.
-    coord.request_stop()
-    coord.join(threads)
+  for i in range(1): #length of your filename list
+    image = my_img.eval() #here is your image Tensor :) 
+
+  print(image.shape)
+  Image.fromarray(np.asarray(image)).show()
+
+  coord.request_stop()
