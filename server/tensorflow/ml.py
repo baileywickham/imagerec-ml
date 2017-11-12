@@ -5,19 +5,21 @@ import csv
 from PIL import Image
 
 # defines image directory as img, label as csv in label directory
-data_dir = os.path.join(os.getcwd())
+ = os.path.join(os.getcwd())
 labelNames = 'label/a.csv'
 graph = tf.Graph()
 
 
-def load_data(data_dir):
+def load_data():
     labels = []
     images = []
 
-    filename_queue = tf.train.string_input_producer(tf.train.match_filenames_once("./img/"))
-    image_reader = tf.WholeFileReader()
 
+    # this sort of works, scaling should be done in the preprocessing but that will come later. 
+    filename_queue = tf.train.string_input_producer(['./images/*.jpg'])
+	reader = tf.WholeFileReader()
     _, image_file = image_reader.read(filename_queue)
+
     image = tf.image.decode_jpeg(image_file)
     images.append(tf.image.resize_images(image, [64, 64]))
 
@@ -32,7 +34,7 @@ def load_data(data_dir):
 
 
 def main():
-    images, labels = load_data(data_dir)
+    images, labels = load_data()
     session = tf.Session(graph=graph)
     session.run(init)
 
