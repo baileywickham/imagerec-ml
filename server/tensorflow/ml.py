@@ -7,7 +7,7 @@ from PIL import Image
 
 # defines image directory as img, label as csv in label directory
 data_dir = os.path.join(os.getcwd())
-labelNames = 'label/a.csv'
+labelNames = 'label/labels.csv'
 graph = tf.Graph()
 
 
@@ -23,9 +23,7 @@ def load_data():
 
     image = tf.image.decode_jpeg(image_file)
     images.append(image)
-    images64 = [skimage.transform.resize(image, (32, 32))
-                for image in images]
-
+         
     # adds labels from csv to label array, retuyourns array
     with open(labelNames, 'r') as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
@@ -44,7 +42,7 @@ def main():
     session.run(init)
 
     labels_a = np.array(labels)
-    images_a = np.array(images[0])
+    images_a = np.array(images)
 
     print(images_a)
 
