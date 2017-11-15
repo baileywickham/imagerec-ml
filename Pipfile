@@ -1,0 +1,22 @@
+[[source]]
+
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+
+[requires]
+
+python_version = "3.5"
+
+
+[packages]
+
+tensorflow = "*"
+scikit-image = "*"
+videosequence = "*"
+gi = "*"
+
+
+[dev-packages]
+

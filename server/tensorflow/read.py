@@ -5,7 +5,7 @@ import numpy as np
 # Make a queue of file names including all the JPEG images files in the relative
 # image directory.
 
-filename_queue = tf.train.string_input_producer(['./images/a.jpg'])
+filename_queue = tf.train.string_input_producer(['./images/*.jpg'])
 reader = tf.WholeFileReader()
 key, value = reader.read(filename_queue)
 

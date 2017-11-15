@@ -39,8 +39,6 @@ def load_data():
 def main():
     images, labels = load_data()
     session = tf.Session(graph=graph)
-    session.run(init)
-
     labels_a = np.array(labels)
     images_a = np.array(images)
 
@@ -69,6 +67,8 @@ def main():
 
         # initalizes variables
         init = tf.global_variables_initializer()
+
+    session.run(init)
 
     for i in range(201):
         _, loss_value = session.run([train, loss], feed_dict={images_ph: images_a, labels_ph: labels_a})
