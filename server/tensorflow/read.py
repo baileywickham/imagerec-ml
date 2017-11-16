@@ -3,12 +3,12 @@ from PIL import Image
 import numpy as np
 import glob
 
-#Get available files
+# Get available files
 files = glob.glob("images/*.jpg")
 filename_queue = tf.train.string_input_producer(files)
 reader = tf.WholeFileReader()
 key, value = reader.read(filename_queue)
-
+print(files)
 my_img = tf.image.decode_jpeg(value) # use png or jpg decoder based on your files.
 
 init_op = tf.global_variables_initializer()

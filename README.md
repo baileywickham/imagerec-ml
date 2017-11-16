@@ -9,24 +9,13 @@ Created by Bailey Wickham, Andy Nguien(sorry), and Keegan Nave with help from Er
 We are using:
 
 Python 3.5.2
-
 --Tensorflow 1.4
-
 --Pipenv
-
 Apache2 and whatever else we decide to throw in for the webpage.
 
-So far
-
 The dir structure is roughly
-
 /server
-
 --/site and spilt program
-
 --/tensorflow
-
 ----/images
-
 ----/labels
-

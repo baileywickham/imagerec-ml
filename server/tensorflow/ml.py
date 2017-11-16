@@ -2,8 +2,8 @@ import tensorflow as tf
 import numpy as np
 import os
 import csv
-import skimage
-from PIL import Image
+import glob
+
 
 # defines image directory as img, label as csv in label directory
 data_dir = os.path.join(os.getcwd())
@@ -15,35 +15,26 @@ def load_data():
     labels = []
     images = []
 
-
-    # this sort of works, scaling should be done in the preprocessing but that will come later. 
-    filename_queue = tf.train.string_input_producer(['./images/*.jpg'])
+    files = glob.glob("images/*.jpg")
+    print(files)
+    filename_queue = tf.train.string_input_producer(files)
     reader = tf.WholeFileReader()
     _, image_file = reader.read(filename_queue)
 
     image = tf.image.decode_jpeg(image_file)
     images.append(image)
-         
-    # adds labels from csv to label array, retuyourns array
+
+    # adds labels from csv to label array, returns array
     with open(labelNames, 'r') as csvfile:
         reader = csv.reader(csvfile, delimiter=',')
         for row in reader:
             for i in range(len(row)):
                 labels.append(int(row[i]))
-    print(images)
     return images, labels
-
-
 
 
 def main():
     images, labels = load_data()
-    session = tf.Session(graph=graph)
-    labels_a = np.array(labels)
-    images_a = np.array(images)
-
-    print(images_a)
-
     with graph.as_default():
 
         # take an image list in as 64x64 with 3 color chanels.
@@ -56,6 +47,7 @@ def main():
 
         # input to softmax, starts probabilties. not sure what tf.nn.relu does
         logits = tf.contrib.layers.fully_connected(images_flat, 2, tf.nn.relu)
+
         # converts labels to tensor
         predicted_labels = tf.argmax(logits, 1)
 
@@ -68,10 +60,12 @@ def main():
         # initalizes variables
         init = tf.global_variables_initializer()
 
-    session.run(init)
-
-    for i in range(201):
-        _, loss_value = session.run([train, loss], feed_dict={images_ph: images_a, labels_ph: labels_a})
+    labels_a = np.array(labels)
+    images_a = np.array(images)
+    with tf.Session(graph=graph) as sess:
+        sess.run(init)
+        for i in range(201):
+            _, loss_value = session.run([train, loss], feed_dict={images_ph: images_a, labels_ph: labels_a})
 
     if i % 10 == 0:
         print("loss value: ", loss_value)
