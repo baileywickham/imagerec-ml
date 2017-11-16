@@ -4,7 +4,7 @@ import os
 import glob
 import shutil
 import csv
-import skimage 
+from skimage import transform
 
 mp4File = input("Enter name of mp4 file:")
 
@@ -28,9 +28,7 @@ with open('labels.csv','w') as myfile:
 
 
 for jpgfile in glob.iglob(os.path.join(src_dir, "*.jpg")):
-    im = skimage.tranform.resize(jpgfile, (64,64))
-    shutil.copy(im, dst_dir)
+    im = skimage.transform.resize(im, (64, 64))
+    shutil.copy(jpgfile, dst_dir)
     os.remove(jpgfile)
-
-
 
