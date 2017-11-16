@@ -1,13 +1,11 @@
-# Typical setup to include TensorFlow.
 import tensorflow as tf
 from PIL import Image
 import numpy as np
 import glob
-# Make a queue of file names including all the JPEG images files in the relative
-# image directory.
 
-filename_queue = tf.train.string_input_producer(glob.glob("images/*.jpg"))
-print(filename_queue)
+#Get available files
+files = glob.glob("images/*.jpg")
+filename_queue = tf.train.string_input_producer(files)
 reader = tf.WholeFileReader()
 key, value = reader.read(filename_queue)
 
@@ -17,15 +15,15 @@ init_op = tf.global_variables_initializer()
 with tf.Session() as sess:
   sess.run(init_op)
 
-  # Start populating the filename queue.
-
   coord = tf.train.Coordinator()
   threads = tf.train.start_queue_runners(coord=coord)
 
-  for i in range(1): #length of your filename list
-    image = my_img.eval() #here is your image Tensor :) 
+  for i in range(len(files)):
+    image = my_img.eval() #Image tensor
 
-  print(image.shape)
-  Image.fromarray(np.asarray(image)).show()
+    print(image.shape) #Expecting
+  
+  #Display image in default image viewer
+  #Image.fromarray(np.asarray(image)).show()
 
   coord.request_stop()
