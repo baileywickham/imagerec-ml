@@ -1,13 +1,12 @@
 import tensorflow as tf
 import numpy as np
-import os
 import csv
 import glob
-
+import skimage.transform
 
 # defines image directory as img, label as csv in label directory
-data_dir = os.path.join(os.getcwd())
-labelNames = 'label/labels.csv'
+labelNames = "label/labels.csv"
+imageNames = "images/*.jpg"
 graph = tf.Graph()
 
 
@@ -15,13 +14,17 @@ def load_data():
     labels = []
     images = []
 
-    files = glob.glob("images/*.jpg")
-    print(files)
+    # Grabs list of file names for the queue
+    files = glob.glob(labelNames)
+    # Creates the queue, converts list to tensor
     filename_queue = tf.train.string_input_producer(files)
+    # Reader
     reader = tf.WholeFileReader()
+    # Returns key and image file, reads the queue into a tensor?
     _, image_file = reader.read(filename_queue)
-
+    # Decodes into tensor
     image = tf.image.decode_jpeg(image_file)
+    # Appends tensor to list.
     images.append(image)
 
     # adds labels from csv to label array, returns array
@@ -30,6 +33,10 @@ def load_data():
         for row in reader:
             for i in range(len(row)):
                 labels.append(int(row[i]))
+    for image in images:
+        print(image)
+        #im = skimage.transform.resize(image, (64, 64))
+        #print(im)
     return images, labels
 
 
@@ -52,7 +59,8 @@ def main():
         predicted_labels = tf.argmax(logits, 1)
 
         # defines loss function, cross entropy. it is better than mean squared.
-        loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits, labels=labels_ph))
+        loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(
+            logits=logits, labels=labels_ph))
 
         # Adam optimizer is a grad decent optimizer,
         train = tf.train.AdamOptimizer(learning_rate=0.001).minimize(loss)
@@ -60,16 +68,21 @@ def main():
         # initalizes variables
         init = tf.global_variables_initializer()
 
+    # Move label and image list to np array
     labels_a = np.array(labels)
     images_a = np.array(images)
+
+    print(labels_a, '\n', images_a, '\n', images_flat, '\n')
+
     with tf.Session(graph=graph) as sess:
         sess.run(init)
-        for i in range(201):
-            _, loss_value = session.run([train, loss], feed_dict={images_ph: images_a, labels_ph: labels_a})
+        coord = tf.train.Coordinator()
+        threads = tf.train.start_queue_runners(coord=coord)
 
-    if i % 10 == 0:
-        print("loss value: ", loss_value)
-
+        _, loss_value = sess.run([train, loss], feed_dict={
+                                 images_ph: images_a, labels_ph: labels_a})
+        im = images_flat.eval()
+        print(im)
 
 if __name__ == "__main__":
     main()
