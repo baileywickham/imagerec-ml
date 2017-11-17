@@ -33,10 +33,6 @@ def load_data():
         for row in reader:
             for i in range(len(row)):
                 labels.append(int(row[i]))
-    for image in images:
-        print(image)
-        #im = skimage.transform.resize(image, (64, 64))
-        #print(im)
     return images, labels
 
 
@@ -71,9 +67,8 @@ def main():
     # Move label and image list to np array
     labels_a = np.array(labels)
     images_a = np.array(images)
-
-    print(labels_a, '\n', images_a, '\n', images_flat, '\n')
-
+    print('this is the np array: ', images_a, '\n')
+    print('this won', '\n', images_a.shape, '\n', images_flat, '\n')
     with tf.Session(graph=graph) as sess:
         sess.run(init)
         coord = tf.train.Coordinator()
@@ -83,6 +78,7 @@ def main():
                                  images_ph: images_a, labels_ph: labels_a})
         im = images_flat.eval()
         print(im)
+
 
 if __name__ == "__main__":
     main()
