@@ -5,19 +5,26 @@ import glob
 import csv
 import sys
 
+#Get any command line args, if possible
+commandLineArgs = list()
 try:
-    mp4File = str(sys.argv[1])
+	commandLineArgs = sys.argv
 except OSError:
-    print("make sure to pass a mp4 in as a paramter")
+	pass #Ignore
 
-andyornot = input("Enter 1 if all images are andy and 0 if not:")
+#If command line args are available, the first one is the mp4, and the second one is whether they're andy or not
+#If no command line args are present, or not enough, then we can just ask the user
+mp4File = str(commandLineArgs[1]) if len(commandLineArgs) > 1 else input("Enter mp4 file: ")
+andyornot = int(commandLineArgs[2]) if len(commandLineArgs) > 2 else int(input("Enter mp4 file: "))
 
+#Split frames
 with closing(VideoSequence(mp4File)) as frames:
-    for idx, frame in enumerate(frames[1:]):
-        frame.save("images/frame{:}.jpg".format(idx))
+	for idx, frame in enumerate(frames[1:]):
+		frame.save("images/frame{:}.jpg".format(idx))
 
+#Save labels
 with open('labels.csv', 'w') as myfile:
-    wrtr = csv.writer(myfile, delimiter=',', quotechar='"')
-    for jpgfile in glob.iglob(os.path.join('images/', "*.jpg")):
-        wrtr.writerow(andyornot)
-        myfile.flush()
+	wrtr = csv.writer(myfile, delimiter=',', quotechar='"')
+	for jpgfile in glob.iglob(os.path.join('images/', "*.jpg")):
+		wrtr.writerow(andyornot)
+		myfile.flush()
