@@ -3,7 +3,7 @@ ANDY OR NOT ANDY
 This is our brand new machine learning testing program that may or may not ever work. The first itteration will be facial recongition
 that looks at whether the photo is Andy or not Andy. 
 
-Created by Bailey Wickham, Andy Nguien(sorry), and Keegan Nave with help from Eric Cambell.
+Created by Bailey Wickham, Andy Nguyen, and Keegan Nave with help from Eric Cambell.
 
 
 We are using:
