@@ -15,7 +15,7 @@ except OSError:
 #If command line args are available, the first one is the mp4, and the second one is whether they're andy or not
 #If no command line args are present, or not enough, then we can just ask the user
 mp4File = str(commandLineArgs[1]) if len(commandLineArgs) > 1 else input("Enter mp4 file: ")
-andyornot = int(commandLineArgs[2]) if len(commandLineArgs) > 2 else int(input("Enter mp4 file: "))
+andyornot = int(commandLineArgs[2]) if len(commandLineArgs) > 2 else int(input("Enter if they're andy or not: "))
 
 #Split frames
 with closing(VideoSequence(mp4File)) as frames:
