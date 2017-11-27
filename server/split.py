@@ -5,6 +5,7 @@ import glob
 import csv
 import sys
 
+# This file is for splitting video files.
 #Get any command line args, if possible
 commandLineArgs = list()
 try:
