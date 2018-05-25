@@ -2,6 +2,8 @@
 
 This project will take images and check if they are Andy or not Andy. The goal of this is to start to understand how tensorflow works, and build a basic image recognition program. We will then add a server component where you can upload an image. 
 
+Moved to andistar12's account under a different name
+
 ## Getting Started
 
 Install Pipenv, its magic. Other than that use linux.
@@ -35,20 +37,6 @@ finally run using normal python commands. IE:
 python ml.py
 ```
 
-
-## Running the tests
-
-lol thinking we have unit tests. our code doesn't even run
-
-
-### Coding style test
-
-Who would have guessed we actually have a style test. Because sublime with anaconda automatically supports pep8... So does our code!
-
-## Deployment
-
-Please don't even try.
-
 ## Contributing
 
 Bailey Wickham
@@ -67,7 +55,7 @@ Why bother doing any version control. I am using python 3.5 because that is defa
 
 * **Bailey Wickham** - *A little of everything* - [BaileyWickham](https://github.com/baileywickham)
 
-* **Andy Nguyen** - *Mostly tensorflow, because he is the smartest.* - [Andistar12](https://github.com/andystar12)
+* **Andy Nguyen** - *Mostly tensorflow* - [Andistar12](https://github.com/andystar12)
 
 * **Keegan Nave** - *Splitting and other serverside things* - [keeganfn](https://github.com/keeganfn)
 
