@@ -2,7 +2,7 @@
 
 This project will take images and check if they are Andy or not Andy. The goal of this is to start to understand how tensorflow works, and build a basic image recognition program. We will then add a server component where you can upload an image. 
 
-Moved to andistar12's account under a different name
+## MOVED TO [ANDY'S](https://github.com/Andistar12/tensorflow_mnist) ACCOUNT
 
 ## Getting Started
 
